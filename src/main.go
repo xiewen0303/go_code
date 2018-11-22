@@ -11,13 +11,31 @@ import (
 	"template/dbcontent"
 	"os"
 	"log"
+	"ms"
+	"analysis/jsonutil"
 )
 
 func main() {
 	//testTemplate()
 	//testWrite()
-	testdbBeanGen()
+	//testdbBeanGen()
 	//testTemplate()
+	//testSql()
+	//testJson()
+	testToJsonStr()
+}
+func testToJsonStr(){
+	jsonutil.OutJsonStr()
+}
+
+func testJson(){
+	jsonutil.TestLoadJsonCfg()
+}
+
+
+func testSql(){
+	connectionUtil := ms.DBConnectionUtil{}
+	connectionUtil.GetConn()
 }
 
 

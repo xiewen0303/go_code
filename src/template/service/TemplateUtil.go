@@ -6,6 +6,8 @@ import (
 	"log"
 	"template/dbcontent"
 	"io"
+	//"github.com/go-sql-driver/mysql"
+	"ms"
 )
 
 type TemplateUtil struct {
@@ -55,4 +57,10 @@ func (self *TemplateUtil) Parse(tmpContent *string,wr io.Writer,contentData dbco
 	}
 	result := "success"
 	return &result
+}
+
+func (self *TemplateUtil) GetDbContentData() dbcontent.IContentData {
+	dbConnectionUtil :=  &ms.DBConnectionUtil{}
+	dbConnectionUtil.GetConn()
+	return  nil
 }

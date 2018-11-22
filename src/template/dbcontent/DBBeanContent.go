@@ -31,5 +31,16 @@ type BeanProp struct {
 }
 
 
+/**
+ * 字段信息
+ */
+type ColumnContent struct {
+	Column_name string		//名字
+	Column_type string		//类型
+	Column_key string   	//是否为主键
+	Column_comment string 	//注释
+}
+
+
 
 
