@@ -1,0 +1,22 @@
+{
+  "varchar":"String",
+  "char":"String",
+  "blob":"Byte[]",
+  "text":"String",
+  "integer":"Long",
+  "int":"Integer",
+  "tinyint":"Integer",
+  "smallint":"Integer",
+  "mediumint":"Integer",
+  "bit":"Boolean",
+  "bigint":"Long",
+  "float":"Float",
+  "double":"Double",
+  "decimal":"BigDecimal",
+  "id":"Long",
+  "date":"Date",
+  "time":"Time",
+  "datetime":"Timestamp",
+  "timestamp":"Timestamp",
+  "year":"Date"
+}

@@ -1,8 +1,7 @@
-package jsonutil
+package fileio
 
 import (
 	"encoding/json"
-	"fileio"
 	"fmt"
 	"log"
 )
@@ -26,7 +25,7 @@ type CfgData struct {
 func TestLoadJsonCfg(){
 	var mongoConfig CfgData
 
-	fileioUtil := fileio.FileUtil{}
+	fileioUtil := FileUtil{}
 	content := fileioUtil.ReadFile("./tpl/config.json")
 
 	err := json.Unmarshal([]byte(content),&mongoConfig)
@@ -46,3 +45,15 @@ func OutJsonStr(){
 	}
 	fmt.Println(string(b))
 }
+
+func LoadJson(path string,data map[string]string) {
+	fileioUtil := FileUtil{}
+	content := fileioUtil.ReadFile(path)
+
+	err := json.Unmarshal([]byte(content),&data)
+	if err != nil {
+		fmt.Printf("解析json错误,jsonStr=%s\n",content)
+		log.Fatal(err)
+	}
+}
+

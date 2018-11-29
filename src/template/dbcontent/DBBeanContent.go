@@ -10,8 +10,8 @@ type DBBeanContent struct {
 	PackageName		string   		//包名
 	ClazzName		string	 		//类名
 	ClazzDescribe	string   		//类名描述
-	BeanProps		[]BeanProp 		//主键名字
-	PrimaryKeys 	[]string		//主键
+	BeanProps		[]BeanProp 		//属性字段
+	//PrimaryKeys 	[]string		//主键
 	TableName		string			//表名字
 }
 
@@ -27,7 +27,10 @@ func (self *DBBeanContent) getType() template.TemplateType {
 type BeanProp struct {
 
 	TypeClazz string   //类型
+	ColumnName string  //数据库表字段名
 	PropName string    //属性类型
+	ClazzName string   //类名称
+	FlagPRI bool	   //是否为主键
 }
 
 
