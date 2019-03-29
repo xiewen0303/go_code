@@ -22,6 +22,33 @@ type CfgData struct {
 	Mongo MongoConfig
 }
 
+/**
+ * 数据库配置文件
+ */
+type DBConfig struct {
+	DbIp string
+	DbPort int
+	DbName string
+	TableName string
+	UserName string
+	Password string
+	PackageName string
+}
+
+func LoadDBConfig() DBConfig {
+	var dbConfig DBConfig
+
+	fileioUtil := FileUtil{}
+	content := fileioUtil.ReadFile("./tpl/config.json")
+
+	err := json.Unmarshal([]byte(content),&dbConfig)
+	if err != nil {
+		fmt.Printf("解析json错误,jsonStr=%s\n",content)
+		log.Fatal(err)
+	}
+	return dbConfig
+}
+
 func TestLoadJsonCfg(){
 	var mongoConfig CfgData
 
@@ -45,6 +72,8 @@ func OutJsonStr(){
 	}
 	fmt.Println(string(b))
 }
+
+
 
 func LoadJson(path string,data map[string]string) {
 	fileioUtil := FileUtil{}

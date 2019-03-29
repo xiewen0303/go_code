@@ -5,7 +5,7 @@ import "template"
 /**
  * dbbean 生成内容
  */
-type DBBeanContent struct {
+type DBBeanBaseContent struct {
 
 	PackageName		string   		//包名
 	ClazzName		string	 		//类名
@@ -15,6 +15,16 @@ type DBBeanContent struct {
 	TableName		string			//表名字
 }
 
+type DBBeanContent struct {
+	PackageName		string   		//包名
+	ClazzName		string	 		//类名
+	ExtendsName		string			//继承者名字
+	ClazzDescribe	string   		//类名描述
+}
+
+func (self *DBBeanBaseContent) getType() template.TemplateType {
+	return template.DBBeanBaseType
+}
 
 func (self *DBBeanContent) getType() template.TemplateType {
 	return template.DBBeanType

@@ -5,8 +5,8 @@ package template
  */
 type TemplateType int
 
-
 const(
-	DBBeanType TemplateType = 1
-	DBXmlType
+	DBBeanBaseType TemplateType = 1
+	DBBeanType TemplateType = 2
+	DBXmlType TemplateType = 3
 )

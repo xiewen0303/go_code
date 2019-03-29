@@ -8,6 +8,8 @@ import (
 	//"github.com/go-sql-driver/mysql"
 	"ms"
 	"strings"
+	"fileio"
+	"os"
 )
 
 type TemplateUtil struct {
@@ -102,14 +104,30 @@ func (self *TemplateUtil) ConverAllUpName(source string) string {
 }
 //GetDBContent
 
+
 func (self *TemplateUtil) GetDBBeanContent() *dbcontent.DBBeanContent {
 	dbBeanContent := &dbcontent.DBBeanContent{}
 
 	dbConnectionUtil := &ms.DBConnectionUtil{}
+	dbConnectionUtil.DBConfig = fileio.LoadDBConfig()
+
+	dbBeanContent.ExtendsName = self.ConverAllUpName(dbConnectionUtil.DBConfig.TableName)+"Base"
+	dbBeanContent.ClazzName = self.ConverAllUpName(dbConnectionUtil.DBConfig.TableName)
+	dbBeanContent.PackageName = dbConnectionUtil.DBConfig.PackageName
+
+	return dbBeanContent
+}
+
+func (self *TemplateUtil) GetDBBeanBaseContent() *dbcontent.DBBeanBaseContent {
+	dbBeanContent := &dbcontent.DBBeanBaseContent{}
+
+	dbConnectionUtil := &ms.DBConnectionUtil{}
+	dbConnectionUtil.DBConfig = fileio.LoadDBConfig()
+
 	columnContent := dbConnectionUtil.GetDBContent()
 
-	dbBeanContent.TableName = ms.TABLE_NAME
-	dbBeanContent.ClazzName = self.ConverAllUpName(dbBeanContent.TableName)
+	dbBeanContent.TableName = dbConnectionUtil.DBConfig.TableName
+	dbBeanContent.ClazzName = self.ConverAllUpName(dbBeanContent.TableName)+"Base"
 	dbBeanContent.PackageName = "com.junyou.dbbean"
 
 	beanProps := make([]dbcontent.BeanProp,0)
@@ -118,7 +136,7 @@ func (self *TemplateUtil) GetDBBeanContent() *dbcontent.DBBeanContent {
 		benProp1 := dbcontent.BeanProp{}
 		benProp1.ColumnName = val.Column_name
 
-		//去除扩后之后的数据
+		//去除扩号之后的数据
 		index := strings.Index(val.Column_type,"(")
 		if index > 0 {
 			val.Column_type = string(val.Column_type[0:index])
@@ -136,4 +154,46 @@ func (self *TemplateUtil) GetDBBeanContent() *dbcontent.DBBeanContent {
 
 	dbBeanContent.BeanProps = beanProps
 	return dbBeanContent
+}
+
+
+func (self *TemplateUtil) GenCode(){
+	self.genDbBeanBaseCode()
+	self.genDbBeanCode()
+}
+
+func (self *TemplateUtil) genDbBeanBaseCode() {
+
+	fileUtil := &fileio.FileUtil{}
+	contentData := self.GetDBBeanBaseContent()
+
+	contentStr := fileUtil.ReadFile("./tpl/dbBeanBase.tpl")
+
+	name := contentData.ClazzName + ".java"
+	//name := "EmailBase.java"
+	f, err := os.OpenFile(name, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+	if err != nil {
+		log.Println(err)
+	}
+	self.Parse(&contentStr,f,contentData)
+
+	f.Close()
+}
+
+func (self *TemplateUtil) genDbBeanCode() {
+
+	fileUtil := &fileio.FileUtil{}
+	contentData := self.GetDBBeanContent()
+
+	contentStr := fileUtil.ReadFile("./tpl/dbBean.tpl")
+
+	name := contentData.ClazzName + ".java"
+	//name := "EmailBase.java"
+	f, err := os.OpenFile(name, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+	if err != nil {
+		log.Println(err)
+	}
+	self.Parse(&contentStr,f,contentData)
+
+	f.Close()
 }

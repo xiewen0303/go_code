@@ -7,46 +7,30 @@ import (
 	"fmt"
 	//"template"
 	"fileio"
-	"template/service"
-	"os"
-	"log"
+	//"template/service"
 	"ms"
 )
 
 func main() {
 	//testTemplate()
 	//testWrite()
-
 	//testTemplate()
 	//testSql()
 	//testJson()
+	//fmt.Printf("%f",3.4*4-4+0.8)
+	////println(service.GetJavaType("varchar112"))
 
-	service.LoadJsonFile()
-	//println(service.GetJavaType("varchar112"))
-	testdbBeanGen()
+
+	//service.LoadJsonFile()
+	//templateUtil := service.TemplateUtil{}
+	//templateUtil.GenCode()
+
+	fmt.Print(2860+800+748)
 }
 
 func testSql(){
 	connectionUtil := ms.DBConnectionUtil{}
 	connectionUtil.GetConn()
-}
-
-
-func testdbBeanGen(){
-
-	fileUtil := &fileio.FileUtil{}
-	templateUtil  := service.TemplateUtil{}
-	contentData := templateUtil.GetDBBeanContent()
-
-	contentStr := fileUtil.ReadFile("./tpl/dbbean.tpl")
-
-	name := "Email.java"
-	f, err := os.OpenFile(name, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
-	if err != nil {
-		log.Println(err)
-	}
-
-	templateUtil.Parse(&contentStr,f,contentData)
 }
 
 

@@ -5,20 +5,26 @@ import (
 	"log"
 	"template/dbcontent"
 	_ "github.com/go-sql-driver/mysql"
+	"fileio"
+	"fmt"
 )
 
 type DBConnectionUtil struct {
+	DBConfig fileio.DBConfig
 }
 
 func (self *DBConnectionUtil) GetConn() *sql.DB {
-	conn,err := sql.Open("mysql","root:root@tcp(192.168.0.158:3306)/shenzhuanserver?charset=utf8")
+
+	connStr := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8",self.DBConfig.UserName,self.DBConfig.Password,self.DBConfig.DbIp,self.DBConfig.DbPort,self.DBConfig.DbName)
+
+	conn,err := sql.Open("mysql",connStr)
 	if err != nil {
 		log.Println(err)
 	}
 	return conn
 }
 
-const TABLE_NAME = "email"
+//const TABLE_NAME = "email"
 
 /**
  * 获取数据表信息
@@ -31,8 +37,8 @@ func (self *DBConnectionUtil) GetDBContent() []dbcontent.ColumnContent {
 	//select TABLE_NAME,TABLE_COMMENT from information_schema.tables where table_schema='shenzhuan_server'   and TABLE_NAME='email'
 	sql := "select column_name,COLUMN_TYPE,COLUMN_KEY,COLUMN_COMMENT from information_schema.columns where table_schema=? and table_name=?"
 
-	//rowDatas,err := conn.Query(sql,"shenzhuan_server","email")
-	rowDatas,err := conn.Query(sql,"shenzhuanserver",TABLE_NAME)
+	rowDatas,err := conn.Query(sql,"shenzhuan_server","email")
+	//rowDatas,err := conn.Query(sql,self.DBConfig.DbName,self.DBConfig.TableName)
 	if err != nil {
 		log.Println(err)
 	}
