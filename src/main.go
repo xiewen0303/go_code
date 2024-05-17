@@ -1,10 +1,10 @@
 package main
 
 import (
-	"netclient"
-	"message"
-	"github.com/golang/protobuf/proto"
 	"fmt"
+	"github.com/golang/protobuf/proto"
+	"message"
+	"netclient"
 	//"template"
 	"fileio"
 	//"template/service"
@@ -20,19 +20,17 @@ func main() {
 	//fmt.Printf("%f",3.4*4-4+0.8)
 	////println(service.GetJavaType("varchar112"))
 
-
 	//service.LoadJsonFile()
 	//templateUtil := service.TemplateUtil{}
 	//templateUtil.GenCode()
 
-	fmt.Print(2860+800+748)
+	fmt.Print(2860 + 800 + 748)
 }
 
-func testSql(){
+func testSql() {
 	connectionUtil := ms.DBConnectionUtil{}
 	connectionUtil.GetConn()
 }
-
 
 func testWrite() {
 	readUtil := &fileio.FileUtil{}
@@ -42,6 +40,6 @@ func testWrite() {
 func testWebSocket() {
 	var client2 netclient.Test1
 	client2.Test1()
-	loginReq := message.Login_C{AccountId:proto.String("zhanshang")}
+	loginReq := message.Login_C{AccountId: proto.String("zhanshang")}
 	fmt.Println(loginReq.GetAccountId())
 }
